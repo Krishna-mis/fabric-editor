@@ -261,20 +261,27 @@ export default function Editor() {
           break;
 
         case "polygon":
-          shape = new fabric.Polygon(
-            [
-              { x: sizeScale, y: 0 },
-              { x: sizeScale * 2, y: sizeScale * 2 },
-              { x: 0, y: sizeScale * 2 },
-            ],
-            {
-              left: centerX - sizeScale,
-              top: centerY - sizeScale,
-              fill: "rgba(255, 165, 0, 0.4)",
-              stroke: "#ffa500",
-              strokeWidth: 1,
-            }
-          );
+          const sides = 6;
+          const radius = sizeScale; // size of the polygon
+          const points = [];
+
+          for (let i = 0; i < sides; i++) {
+            const angle = (Math.PI * 2 * i) / sides;
+            points.push({
+              x: radius * Math.cos(angle),
+              y: radius * Math.sin(angle),
+            });
+          }
+
+          shape = new fabric.Polygon(points, {
+            left: centerX,
+            top: centerY,
+            fill: "rgba(255, 165, 0, 0.4)",
+            stroke: "#ffa500",
+            strokeWidth: 1,
+            originX: "center",
+            originY: "center",
+          });
           break;
 
         default:
